@@ -57,7 +57,9 @@ export class AppComponent {
       console.log('ADDRESS:', res);
     });
     if (this.map) {
-      this.features = this.map.queryRenderedFeatures(event.point);
+      this.features = this.map.queryRenderedFeatures(event.point, {
+        layers: ['buildings3d']
+      });
     }
     // this.map?.jumpTo({center: {
     //   lng: event.lngLat.lng,

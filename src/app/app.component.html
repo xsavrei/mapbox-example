@@ -16,9 +16,7 @@
     >
       <mgl-geojson-source
         [id]="'bratislava3d'"
-
-        [data]="'assets/bratislava.geojson'">
-
+        [data]="'assets/bratislava1.geojson'">
       </mgl-geojson-source>
 
       <mgl-layer
@@ -27,10 +25,16 @@
         [type]="'fill-extrusion'"
         [paint]="{
   'fill-extrusion-color': 'hsl(46,79%,48%)',
-  'fill-extrusion-height': ['*',['to-number',['get','building:levels']],3],
+  'fill-extrusion-height': [
+    'case',
+    ['boolean', ['has', 'building:levels'], true],
+    ['*',['to-number',['get','building:levels']],3],
+    5
+  ],
+  'fill-extrusion-base': ['*',['to-number',['get','building:min_level']],3],
   'fill-extrusion-opacity': 0.8
   }"
-        [minzoom]="15"
+        [minzoom]="1"
       >
 
       </mgl-layer>
