@@ -1,29 +1,30 @@
-<nav>
-  {{ lngLat | json }}
-</nav>
-<div class="row">
-  <div class="col-12 col-lg-3">
-    <pre>{{ features |  json }}</pre>
-  </div>
-  <div class="map col-12 col-lg-9">
-    <mgl-map
-      [style]="'mapbox://styles/xsavrei/cl5b5aqny00av16p34oa08i9l/draft'"
-      [zoom]="[15]"
-      [center]="[17.104039612778507, 48.15739366621949]"
-      (mapLoad)="onMapInit($event)"
-      (mapClick)="onClickEvent($event)"
-      (mapMouseMove)="onMoveEvent($event)"
-    >
-      <mgl-geojson-source
-        [id]="'bratislava3d'"
-        [data]="'assets/bratislava1.geojson'">
-      </mgl-geojson-source>
 
-      <mgl-layer
-        [id]="'buildings3d'"
-        [source]="'bratislava3d'"
-        [type]="'fill-extrusion'"
-        [paint]="{
+<mgl-map
+  [style]="'mapbox://styles/xsavrei/cl5b5aqny00av16p34oa08i9l/draft'"
+  [zoom]="[15]"
+  [pitch]="[50]"
+  [center]="[17.104039612778507, 48.15739366621949]"
+  (mapLoad)="onMapInit($event)"
+  (mapClick)="onClickEvent($event)"
+  (mapMouseMove)="onMoveEvent($event)"
+>
+  <mgl-control  position="top-left" >
+    <nav>
+      {{ lngLat | json }}
+    </nav>
+  </mgl-control>
+  <mgl-control mglNavigation></mgl-control>
+  <mgl-control mglGeolocate></mgl-control>
+  <mgl-geojson-source
+    [id]="'bratislava3d'"
+    [data]="'assets/bratislava1.geojson'">
+  </mgl-geojson-source>
+
+  <mgl-layer
+    [id]="'buildings3d'"
+    [source]="'bratislava3d'"
+    [type]="'fill-extrusion'"
+    [paint]="{
   'fill-extrusion-color': 'hsl(46,79%,48%)',
   'fill-extrusion-height': [
     'case',
@@ -34,21 +35,21 @@
   'fill-extrusion-base': ['*',['to-number',['get','building:min_level']],3],
   'fill-extrusion-opacity': 0.8
   }"
-        [minzoom]="1"
-      >
+    [minzoom]="1"
+  >
 
-      </mgl-layer>
-      <ng-container *ngIf="lngLat">
-        <mgl-marker
-          [lngLat]="[lngLat.lng, lngLat.lat]"
-        >
-          <div
-            style="background-color: gray; margin-top: 2rem; opacity: 50%; min-width: 100px; text-align: center; border-radius: 10%"
-            [hidden]="false">
-            point
-          </div>
-        </mgl-marker>
-      </ng-container>
-    </mgl-map>
-  </div>
-</div>
+  </mgl-layer>
+  <ng-container *ngIf="lngLat">
+    <mgl-marker
+      [lngLat]="[lngLat.lng, lngLat.lat]"
+    >
+      <div
+        style="background-color: gray; margin-top: 2rem; opacity: 50%; min-width: 100px; text-align: center; border-radius: 10%"
+        [hidden]="false">
+        point
+      </div>
+    </mgl-marker>
+  </ng-container>
+</mgl-map>
+
+
